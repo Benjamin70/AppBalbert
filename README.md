@@ -1,16 +1,27 @@
-# React + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+# 🪒 AppBalbert - Sistema de Reservas para Barberías
+Sistema web moderno y responsive para gestión de citas en barberías. Diseñado como aplicación **Multi-Tenant ready** para ser utilizado por múltiples negocios.
+## ✨ Características
+### Para Clientes
+- 📱 Interfaz MobileFirst totalmente responsive
+- 🪒 Selección de barbero preferido
+- 🛒 Carrito de servicios estilo "Menu Cart Pro"
+- 📅 Reserva de citas con selección de fecha y hora
+- ⚠️ Notificaciones y recordatorios (llegar 5 min antes)
+- 📋 Historial de citas
+### Para Administradores
+- 📊 Dashboard con estadísticas del día
+- 👥 CRUD completo de barberos
+- 📅 Gestión de citas con filtros
+- 🔔 Notificaciones de nuevas reservas
+## 🛠️ Tecnologías
+- **Frontend:** React 19 + Vite 7
+- **Estilos:** Tailwind CSS v4
+- **Routing:** React Router DOM
+- **Notificaciones:** React Hot Toast
+- **Iconos:** Lucide React
+- **Persistencia:** LocalStorage (Multi-Tenant ready para backend futuro)
+## 🎨 Tema Visual
+Diseño premium con tema oscuro y acentos dorados, pensado para transmitir elegancia y profesionalismo.
+## 🔐 Credenciales Demo
+- **Admin:** admin@barberia.com / 123456
+- **Usuario:** Registro libre
