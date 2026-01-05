@@ -21,11 +21,15 @@ import Register from './pages/Register';
 import Home from './pages/user/Home';
 import Booking from './pages/user/Booking';
 import MyAppointments from './pages/user/MyAppointments';
+import ServicesPage from './pages/user/Services';
+import BarbersPage from './pages/user/Barbers';
 
 // Pages - Admin
 import Dashboard from './pages/admin/Dashboard';
 import Barbers from './pages/admin/Barbers';
 import AdminAppointments from './pages/admin/Appointments';
+import AdminServices from './pages/admin/Services';
+import AdminClients from './pages/admin/Clients';
 
 function App() {
   return (
@@ -80,6 +84,8 @@ function App() {
               {/* Public/User Routes */}
               <Route element={<MainLayout />}>
                 <Route path="/" element={<Home />} />
+                <Route path="/servicios" element={<ServicesPage />} />
+                <Route path="/barberos" element={<BarbersPage />} />
                 <Route
                   path="/reservar"
                   element={
@@ -96,6 +102,8 @@ function App() {
                     </ProtectedRoute>
                   }
                 />
+                {/* 404 - Keep inside MainLayout */}
+                <Route path="*" element={<Home />} />
               </Route>
 
               {/* Admin Routes */}
@@ -110,10 +118,9 @@ function App() {
                 <Route index element={<Dashboard />} />
                 <Route path="barberos" element={<Barbers />} />
                 <Route path="citas" element={<AdminAppointments />} />
+                <Route path="servicios" element={<AdminServices />} />
+                <Route path="clientes" element={<AdminClients />} />
               </Route>
-
-              {/* 404 - Redirect to home */}
-              <Route path="*" element={<Home />} />
             </Routes>
           </DataProvider>
         </AuthProvider>

@@ -11,7 +11,8 @@ import {
     LogOut,
     Menu,
     X,
-    Bell
+    Bell,
+    UsersRound
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -35,6 +36,7 @@ export default function AdminLayout() {
         { path: '/admin/barberos', icon: Users, label: 'Barberos' },
         { path: '/admin/citas', icon: Calendar, label: 'Citas' },
         { path: '/admin/servicios', icon: Settings, label: 'Servicios' },
+        { path: '/admin/clientes', icon: UsersRound, label: 'Clientes' },
     ];
 
     const isActive = (path, exact = false) => {
@@ -66,8 +68,8 @@ export default function AdminLayout() {
                             key={item.path}
                             to={item.path}
                             className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${isActive(item.path, item.exact)
-                                    ? 'bg-primary text-secondary-dark'
-                                    : 'text-muted hover:text-light hover:bg-secondary-light'
+                                ? 'bg-primary text-secondary-dark'
+                                : 'text-muted hover:text-light hover:bg-secondary-light'
                                 }`}
                         >
                             <item.icon className="w-5 h-5" />
@@ -138,8 +140,8 @@ export default function AdminLayout() {
                             to={item.path}
                             onClick={() => setSidebarOpen(false)}
                             className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${isActive(item.path, item.exact)
-                                    ? 'bg-primary text-secondary-dark'
-                                    : 'text-muted hover:text-light hover:bg-secondary-light'
+                                ? 'bg-primary text-secondary-dark'
+                                : 'text-muted hover:text-light hover:bg-secondary-light'
                                 }`}
                         >
                             <item.icon className="w-5 h-5" />

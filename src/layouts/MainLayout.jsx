@@ -10,12 +10,13 @@ import {
     Calendar,
     Phone,
     Instagram,
-    Facebook
+    Facebook,
+    LayoutDashboard
 } from 'lucide-react';
 import { useState } from 'react';
 
 export default function MainLayout() {
-    const { user, logout, isAuthenticated } = useAuth();
+    const { user, logout, isAuthenticated, isAdmin } = useAuth();
     const { shop, isOpenNow } = useShop();
     const navigate = useNavigate();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -27,6 +28,24 @@ export default function MainLayout() {
 
     return (
         <div className="min-h-screen flex flex-col gradient-dark">
+            {/* Admin Banner - Only visible for admins */}
+            {isAdmin && (
+                <div className="bg-primary text-secondary-dark py-2 px-4">
+                    <div className="section-container flex items-center justify-between">
+                        <span className="text-sm font-medium">
+                            👁️ Estás viendo el sitio como visitante
+                        </span>
+                        <Link
+                            to="/admin"
+                            className="flex items-center gap-2 px-4 py-1.5 bg-secondary text-light text-sm font-medium rounded-lg hover:bg-secondary-light transition-colors"
+                        >
+                            <LayoutDashboard className="w-4 h-4" />
+                            Volver al Admin
+                        </Link>
+                    </div>
+                </div>
+            )}
+
             {/* Header */}
             <header className="sticky top-0 z-50 bg-secondary/95 backdrop-blur-md border-b border-primary/20">
                 <div className="section-container">
