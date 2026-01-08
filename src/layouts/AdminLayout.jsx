@@ -1,6 +1,6 @@
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { useShop } from '../context/ShopContext';
+import { useTenant } from '../context/TenantContext';
 import { useData } from '../context/DataContext';
 import {
     Scissors,
@@ -12,13 +12,19 @@ import {
     Menu,
     X,
     Bell,
-    UsersRound
+    UsersRound,
+    Store,
+    Package,
+    BarChart3,
+    Star,
+    Gift,
+    Image
 } from 'lucide-react';
 import { useState } from 'react';
 
 export default function AdminLayout() {
     const { user, logout } = useAuth();
-    const { shop } = useShop();
+    const { currentShop, getEmployeeLabel } = useTenant();
     const { getTodayAppointments } = useData();
     const navigate = useNavigate();
     const location = useLocation();
@@ -31,12 +37,21 @@ export default function AdminLayout() {
         navigate('/login');
     };
 
+    // Usar terminología dinámica del shop
+    const employeeLabel = getEmployeeLabel(true); // Plural
+
     const navItems = [
         { path: '/admin', icon: LayoutDashboard, label: 'Dashboard', exact: true },
-        { path: '/admin/barberos', icon: Users, label: 'Barberos' },
+        { path: '/admin/barberos', icon: Users, label: employeeLabel },
         { path: '/admin/citas', icon: Calendar, label: 'Citas' },
         { path: '/admin/servicios', icon: Settings, label: 'Servicios' },
         { path: '/admin/clientes', icon: UsersRound, label: 'Clientes' },
+        { path: '/admin/inventario', icon: Package, label: 'Inventario' },
+        { path: '/admin/analytics', icon: BarChart3, label: 'Analytics' },
+        { path: '/admin/resenas', icon: Star, label: 'Reseñas' },
+        { path: '/admin/fidelidad', icon: Gift, label: 'Fidelidad' },
+        { path: '/admin/galeria', icon: Image, label: 'Galería' },
+        { path: '/admin/gift-cards', icon: Gift, label: 'Gift Cards' },
     ];
 
     const isActive = (path, exact = false) => {
@@ -56,7 +71,7 @@ export default function AdminLayout() {
                         </div>
                         <div>
                             <h1 className="font-heading font-bold text-light">Admin</h1>
-                            <p className="text-xs text-primary">{shop.name}</p>
+                            <p className="text-xs text-primary">{currentShop?.name}</p>
                         </div>
                     </Link>
                 </div>
@@ -125,7 +140,7 @@ export default function AdminLayout() {
                         </div>
                         <div>
                             <h1 className="font-heading font-bold text-light">Admin</h1>
-                            <p className="text-xs text-primary">{shop.name}</p>
+                            <p className="text-xs text-primary">{currentShop?.name}</p>
                         </div>
                     </Link>
                     <button onClick={() => setSidebarOpen(false)} className="text-muted hover:text-light">
