@@ -65,6 +65,12 @@ export default function LandingPage() {
                     </div>
                     <div className="flex items-center gap-4">
                         <Link
+                            to="/precios"
+                            className="text-white/60 hover:text-white transition-colors hidden sm:inline"
+                        >
+                            Precios
+                        </Link>
+                        <Link
                             to="/login"
                             className="text-white/80 hover:text-white transition-colors"
                         >
@@ -109,7 +115,7 @@ export default function LandingPage() {
                             <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                         </Link>
                         <Link
-                            to="/inicio"
+                            to="/s/demo-barberia"
                             className="bg-white/10 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-white/20 transition-all border border-white/20"
                         >
                             Ver Demo

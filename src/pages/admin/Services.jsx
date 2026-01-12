@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useData } from '../../context/DataContext';
-import { useShop } from '../../context/ShopContext';
+import { useTenant } from '../../context/TenantContext';
 import {
     Scissors,
     Plus,
@@ -14,7 +14,7 @@ import toast from 'react-hot-toast';
 
 export default function Services() {
     const { services, addService, updateService, deleteService } = useData();
-    const { formatPrice } = useShop();
+    const { formatPrice } = useTenant();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingService, setEditingService] = useState(null);
     const [formData, setFormData] = useState({

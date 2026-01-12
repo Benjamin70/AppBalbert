@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
-import { useShop } from '../../context/ShopContext';
+import { Link, useLocation } from 'react-router-dom';
+import { useTenant } from '../../context/TenantContext';
 import { useData } from '../../context/DataContext';
 import { useAuth } from '../../context/AuthContext';
 import {
@@ -14,9 +14,20 @@ import {
 } from 'lucide-react';
 
 export default function Home() {
-    const { shop, formatPrice } = useShop();
+    const { currentShop, formatPrice } = useTenant();
     const { barbers, services } = useData();
     const { isAuthenticated } = useAuth();
+
+    // Fallback para shop
+    const shop = currentShop || {
+        name: 'BeautyHub',
+        description: 'Tu negocio de belleza profesional'
+    };
+
+    // Extraer basePath desde URL para mantener contexto del shop
+    const location = useLocation();
+    const pathParts = location.pathname.split('/');
+    const basePath = pathParts[1] === 's' && pathParts[2] ? `/s/${pathParts[2]}` : '';
 
     // Mostrar solo algunos servicios destacados
     const featuredServices = services.slice(0, 4);
@@ -54,13 +65,13 @@ export default function Home() {
                         {/* CTA Buttons */}
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-slide-up" style={{ animationDelay: '0.2s' }}>
                             <Link
-                                to={isAuthenticated ? "/reservar" : "/login"}
+                                to={isAuthenticated ? `${basePath}/reservar` : "/login"}
                                 className="btn-primary px-8 py-4 text-lg w-full sm:w-auto"
                             >
                                 <Calendar className="w-5 h-5 mr-2" />
                                 Reservar Ahora
                             </Link>
-                            <Link to="/servicios" className="btn-outline px-8 py-4 text-lg w-full sm:w-auto">
+                            <Link to={`${basePath}/servicios`} className="btn-outline px-8 py-4 text-lg w-full sm:w-auto">
                                 Ver Servicios
                             </Link>
                         </div>
@@ -119,7 +130,7 @@ export default function Home() {
                 </div>
 
                 <div className="text-center mt-8">
-                    <Link to="/servicios" className="btn-outline inline-flex items-center gap-2">
+                    <Link to={`${basePath}/servicios`} className="btn-outline inline-flex items-center gap-2">
                         Ver todos los servicios
                         <ChevronRight className="w-4 h-4" />
                     </Link>
@@ -164,7 +175,7 @@ export default function Home() {
 
                         {barbers.length > 3 && (
                             <div className="text-center mt-8">
-                                <Link to="/barberos" className="btn-outline inline-flex items-center gap-2">
+                                <Link to={`${basePath}/equipo`} className="btn-outline inline-flex items-center gap-2">
                                     Ver todo el equipo
                                     <ChevronRight className="w-4 h-4" />
                                 </Link>
@@ -223,7 +234,7 @@ export default function Home() {
                         Reserva tu cita ahora y experimenta el servicio de barbería que mereces
                     </p>
                     <Link
-                        to={isAuthenticated ? "/reservar" : "/registro"}
+                        to={isAuthenticated ? `${basePath}/reservar` : "/registro"}
                         className="inline-flex items-center gap-2 px-8 py-4 bg-secondary text-light font-semibold rounded-lg hover:bg-secondary-dark transition-all hover:shadow-xl"
                     >
                         <Calendar className="w-5 h-5" />

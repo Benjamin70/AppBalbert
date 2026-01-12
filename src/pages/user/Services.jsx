@@ -1,6 +1,6 @@
 import { useData } from '../../context/DataContext';
-import { useShop } from '../../context/ShopContext';
-import { Link } from 'react-router-dom';
+import { useTenant } from '../../context/TenantContext';
+import { Link, useLocation } from 'react-router-dom';
 import {
     Scissors,
     Clock,
@@ -11,7 +11,12 @@ import {
 
 export default function ServicesPage() {
     const { services } = useData();
-    const { formatPrice } = useShop();
+    const { formatPrice } = useTenant();
+    const location = useLocation();
+
+    // Extraer basePath desde URL para mantener contexto del shop
+    const pathParts = location.pathname.split('/');
+    const basePath = pathParts[1] === 's' && pathParts[2] ? `/s/${pathParts[2]}` : '';
 
     return (
         <div className="min-h-screen">
@@ -59,7 +64,7 @@ export default function ServicesPage() {
                                         <span>{service.duration} minutos</span>
                                     </div>
                                     <Link
-                                        to="/reservar"
+                                        to={`${basePath}/reservar`}
                                         className="text-primary text-sm font-medium hover:underline flex items-center gap-1"
                                     >
                                         Reservar
@@ -87,7 +92,7 @@ export default function ServicesPage() {
                         Reserva tu cita ahora y disfruta de una experiencia premium
                     </p>
                     <Link
-                        to="/reservar"
+                        to={`${basePath}/reservar`}
                         className="inline-flex items-center gap-2 px-8 py-4 bg-secondary text-light font-semibold rounded-lg hover:bg-secondary-dark transition-all hover:shadow-xl"
                     >
                         <Calendar className="w-5 h-5" />

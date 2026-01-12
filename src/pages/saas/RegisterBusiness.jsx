@@ -164,24 +164,102 @@ export default function RegisterBusiness() {
             ownerId: `owner_${Date.now()}`,
         });
 
-        // Guardar admin en localStorage (simplificado)
+        // ============ GENERAR DATOS DE DEMOSTRACIÓN ============
+        const timestamp = Date.now();
+
+        // Servicios de ejemplo según tipo de negocio
+        const demoServices = getDemoServices(formData.businessType, newShop.id, timestamp);
+        const existingServices = JSON.parse(localStorage.getItem('beautyhub_services') || '[]');
+        localStorage.setItem('beautyhub_services', JSON.stringify([...existingServices, ...demoServices]));
+
+        // Empleado de ejemplo
+        const demoEmployee = {
+            id: `emp_${timestamp}`,
+            shopId: newShop.id,
+            name: formData.ownerName,
+            specialty: formData.businessType === 'otro' ? 'Profesional' : formData.businessType,
+            phone: formData.ownerPhone || '',
+            email: formData.ownerEmail,
+            commission: 30,
+            avatar: formData.logo,
+            createdAt: new Date().toISOString(),
+        };
+        const existingBarbers = JSON.parse(localStorage.getItem('beautyhub_barbers') || '[]');
+        localStorage.setItem('beautyhub_barbers', JSON.stringify([...existingBarbers, demoEmployee]));
+
+        // Guardar admin en localStorage
         const admins = JSON.parse(localStorage.getItem('beautyhub_users') || '[]');
-        admins.push({
-            id: `owner_${Date.now()}`,
+        const newAdmin = {
+            id: `owner_${timestamp}`,
             name: formData.ownerName,
             email: formData.ownerEmail,
-            password: formData.ownerPassword, // ⚠️ Solo para demo
+            password: formData.ownerPassword,
             phone: formData.ownerPhone,
             role: 'admin',
             shopId: newShop.id,
             createdAt: new Date().toISOString(),
-        });
+        };
+        admins.push(newAdmin);
         localStorage.setItem('beautyhub_users', JSON.stringify(admins));
+
+        // También guardar en la lista de usuarios del sistema legacy
+        const legacyUsers = JSON.parse(localStorage.getItem('app_balbert_users') || '[]');
+        legacyUsers.push(newAdmin);
+        localStorage.setItem('app_balbert_users', JSON.stringify(legacyUsers));
+
+        // Auto-login del nuevo admin
+        const { password: _, ...userWithoutPassword } = newAdmin;
+        localStorage.setItem('app_balbert_current_user', JSON.stringify(userWithoutPassword));
 
         toast.success('¡Negocio creado exitosamente!');
 
-        // Redirigir al nuevo shop
-        navigate(`/s/${newShop.slug}`);
+        // Redirigir al panel de administración
+        setTimeout(() => {
+            window.location.href = '/admin';
+        }, 100);
+    };
+
+    // Función para generar servicios demo según tipo de negocio
+    const getDemoServices = (businessType, shopId, timestamp) => {
+        const baseServices = {
+            'Barbería': [
+                { name: 'Corte Clásico', price: 300, duration: 30, description: 'Corte tradicional con tijera y máquina' },
+                { name: 'Corte + Barba', price: 500, duration: 45, description: 'Corte completo con arreglo de barba' },
+                { name: 'Afeitado Clásico', price: 250, duration: 30, description: 'Afeitado con navaja y toalla caliente' },
+                { name: 'Diseño de Cejas', price: 100, duration: 15, description: 'Perfilado y diseño de cejas' },
+            ],
+            'Salón de Belleza': [
+                { name: 'Corte de Cabello', price: 400, duration: 45, description: 'Corte estilizado profesional' },
+                { name: 'Tinte Completo', price: 1500, duration: 120, description: 'Coloración completa del cabello' },
+                { name: 'Mechas/Highlights', price: 2000, duration: 150, description: 'Mechas o reflejos' },
+                { name: 'Peinado', price: 800, duration: 60, description: 'Peinado para evento especial' },
+            ],
+            'Estudio de Uñas': [
+                { name: 'Manicure Clásico', price: 350, duration: 45, description: 'Manicure tradicional' },
+                { name: 'Pedicure Spa', price: 500, duration: 60, description: 'Pedicure con tratamiento spa' },
+                { name: 'Uñas Acrílicas', price: 1200, duration: 90, description: 'Aplicación de uñas acrílicas' },
+                { name: 'Gelish', price: 600, duration: 45, description: 'Esmaltado permanente gelish' },
+            ],
+            'Spa & Wellness': [
+                { name: 'Masaje Relajante', price: 1500, duration: 60, description: 'Masaje corporal relajante' },
+                { name: 'Facial Hidratante', price: 1200, duration: 45, description: 'Tratamiento facial hidratante' },
+                { name: 'Exfoliación Corporal', price: 1000, duration: 45, description: 'Exfoliación de cuerpo completo' },
+                { name: 'Aromaterapia', price: 800, duration: 30, description: 'Sesión de aromaterapia' },
+            ],
+        };
+
+        const services = baseServices[businessType] || [
+            { name: 'Servicio 1', price: 500, duration: 30, description: 'Descripción del servicio' },
+            { name: 'Servicio 2', price: 800, duration: 45, description: 'Descripción del servicio' },
+            { name: 'Servicio 3', price: 1000, duration: 60, description: 'Descripción del servicio' },
+        ];
+
+        return services.map((s, i) => ({
+            id: `svc_${timestamp}_${i}`,
+            shopId,
+            ...s,
+            createdAt: new Date().toISOString(),
+        }));
     };
 
     return (
@@ -332,8 +410,8 @@ export default function RegisterBusiness() {
                                                 }
                                             }}
                                             className={`flex items-center gap-3 p-4 rounded-xl border transition-all ${formData.businessType === type.value
-                                                    ? 'bg-amber-500/20 border-amber-500 text-amber-400'
-                                                    : 'bg-white/5 border-white/20 text-white/80 hover:border-white/40'
+                                                ? 'bg-amber-500/20 border-amber-500 text-amber-400'
+                                                : 'bg-white/5 border-white/20 text-white/80 hover:border-white/40'
                                                 }`}
                                         >
                                             <type.icon className="w-5 h-5" />
@@ -344,8 +422,8 @@ export default function RegisterBusiness() {
                                 <button
                                     onClick={() => updateForm('businessType', 'otro')}
                                     className={`w-full mt-3 p-3 rounded-xl border text-center transition-all ${formData.businessType === 'otro'
-                                            ? 'bg-amber-500/20 border-amber-500 text-amber-400'
-                                            : 'bg-white/5 border-white/20 text-white/60 hover:border-white/40'
+                                        ? 'bg-amber-500/20 border-amber-500 text-amber-400'
+                                        : 'bg-white/5 border-white/20 text-white/60 hover:border-white/40'
                                         }`}
                                 >
                                     Otro tipo de negocio...
@@ -466,8 +544,8 @@ export default function RegisterBusiness() {
                                             key={i}
                                             onClick={() => updateForm('selectedPalette', i)}
                                             className={`p-4 rounded-xl border transition-all ${formData.selectedPalette === i
-                                                    ? 'border-amber-500 bg-white/10'
-                                                    : 'border-white/20 hover:border-white/40'
+                                                ? 'border-amber-500 bg-white/10'
+                                                : 'border-white/20 hover:border-white/40'
                                                 }`}
                                         >
                                             <div className="flex gap-2 mb-2">

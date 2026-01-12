@@ -1,5 +1,5 @@
 import { useData } from '../../context/DataContext';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import {
     Star,
     Calendar,
@@ -10,6 +10,11 @@ import {
 
 export default function BarbersPage() {
     const { barbers } = useData();
+    const location = useLocation();
+
+    // Extraer basePath desde URL para mantener contexto del shop
+    const pathParts = location.pathname.split('/');
+    const basePath = pathParts[1] === 's' && pathParts[2] ? `/s/${pathParts[2]}` : '';
 
     return (
         <div className="min-h-screen">
@@ -75,7 +80,7 @@ export default function BarbersPage() {
 
                                 {/* CTA */}
                                 <Link
-                                    to="/reservar"
+                                    to={`${basePath}/reservar`}
                                     className="btn-primary w-full"
                                 >
                                     <Calendar className="w-4 h-4 mr-2" />
@@ -95,7 +100,7 @@ export default function BarbersPage() {
                         <p className="text-muted text-lg mb-6">
                             Nuestro equipo se está preparando para atenderte
                         </p>
-                        <Link to="/" className="btn-outline">
+                        <Link to={basePath || '/'} className="btn-outline">
                             <ChevronRight className="w-4 h-4 mr-2 rotate-180" />
                             Volver al Inicio
                         </Link>

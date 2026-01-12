@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { useShop } from '../context/ShopContext';
+import { useTenant } from '../context/TenantContext';
 import { Scissors, Mail, Lock, Eye, EyeOff, User, Phone, UserPlus } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export default function Register() {
     const { register } = useAuth();
-    const { shop } = useShop();
+    const { currentShop } = useTenant();
+    const shop = currentShop || { name: 'BeautyHub' };
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({

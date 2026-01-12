@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useData } from '../../context/DataContext';
-import { useShop } from '../../context/ShopContext';
+import { useTenant } from '../../context/TenantContext';
 import {
     Calendar,
     Clock,
@@ -15,7 +15,7 @@ import toast from 'react-hot-toast';
 
 export default function AdminAppointments() {
     const { appointments, barbers, updateAppointment } = useData();
-    const { formatPrice } = useShop();
+    const { formatPrice } = useTenant();
     const [filter, setFilter] = useState('all');
     const [search, setSearch] = useState('');
     const [dateFilter, setDateFilter] = useState('');

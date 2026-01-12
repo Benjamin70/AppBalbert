@@ -52,6 +52,7 @@ export default function AdminLayout() {
         { path: '/admin/fidelidad', icon: Gift, label: 'Fidelidad' },
         { path: '/admin/galeria', icon: Image, label: 'Galería' },
         { path: '/admin/gift-cards', icon: Gift, label: 'Gift Cards' },
+        { path: '/admin/configuracion', icon: Settings, label: 'Configuración' },
     ];
 
     const isActive = (path, exact = false) => {
@@ -111,6 +112,15 @@ export default function AdminLayout() {
                             <p className="text-xs text-muted">{user?.email}</p>
                         </div>
                     </div>
+
+                    {/* Back to BeautyHub */}
+                    <Link
+                        to="/"
+                        className="w-full flex items-center justify-center gap-2 px-4 py-2 mb-2 text-muted hover:text-light hover:bg-secondary-light rounded-lg transition-colors text-sm"
+                    >
+                        ← Volver a BeautyHub
+                    </Link>
+
                     <button
                         onClick={handleLogout}
                         className="w-full flex items-center justify-center gap-2 px-4 py-2 text-error hover:bg-error/10 rounded-lg transition-colors"

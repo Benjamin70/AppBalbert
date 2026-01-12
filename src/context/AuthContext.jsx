@@ -33,7 +33,7 @@ export function AuthProvider({ children }) {
 
     // Iniciar sesión
     const login = (email, password) => {
-        // Verificar si es admin
+        // Verificar si es admin del shopConfig (demo)
         if (
             email === shopConfig.adminCredentials.email &&
             password === shopConfig.adminCredentials.password
@@ -49,11 +49,19 @@ export function AuthProvider({ children }) {
             return { success: true, user: adminUser };
         }
 
-        // Verificar usuarios registrados
+        // Verificar usuarios registrados (legacy)
         const users = getUsers();
-        const foundUser = users.find(
+        let foundUser = users.find(
             (u) => u.email === email && u.password === password
         );
+
+        // También buscar en beautyhub_users (nuevos negocios)
+        if (!foundUser) {
+            const beautyhubUsers = JSON.parse(localStorage.getItem('beautyhub_users') || '[]');
+            foundUser = beautyhubUsers.find(
+                (u) => u.email === email && u.password === password
+            );
+        }
 
         if (foundUser) {
             const { password: _, ...userWithoutPassword } = foundUser;

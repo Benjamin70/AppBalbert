@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useData } from '../../context/DataContext';
-import { useShop } from '../../context/ShopContext';
+import { useTenant } from '../../context/TenantContext';
 import {
     Scissors,
     User,
@@ -23,7 +23,8 @@ import toast from 'react-hot-toast';
 export default function Booking() {
     const { user } = useAuth();
     const { barbers, services, addAppointment } = useData();
-    const { shop, formatPrice } = useShop();
+    const { currentShop, formatPrice } = useTenant();
+    const shop = currentShop || { name: 'BeautyHub' };
     const navigate = useNavigate();
 
     // Estados del flujo de reserva
@@ -297,8 +298,8 @@ export default function Booking() {
                                             setSelectedTime('');
                                         }}
                                         className={`flex-shrink-0 p-4 rounded-xl text-center transition-all min-w-[100px] ${selectedDate === dateObj.date
-                                                ? 'bg-primary text-secondary-dark'
-                                                : 'bg-secondary-light text-light hover:bg-primary/20'
+                                            ? 'bg-primary text-secondary-dark'
+                                            : 'bg-secondary-light text-light hover:bg-primary/20'
                                             }`}
                                     >
                                         <div className="font-heading font-semibold">{dateObj.display}</div>
@@ -317,8 +318,8 @@ export default function Booking() {
                                             key={time}
                                             onClick={() => setSelectedTime(time)}
                                             className={`p-3 rounded-lg text-center transition-all ${selectedTime === time
-                                                    ? 'bg-primary text-secondary-dark'
-                                                    : 'bg-secondary-light text-light hover:bg-primary/20'
+                                                ? 'bg-primary text-secondary-dark'
+                                                : 'bg-secondary-light text-light hover:bg-primary/20'
                                                 }`}
                                         >
                                             {time}
@@ -433,10 +434,10 @@ export default function Booking() {
                                 onClick={() => s < step && setStep(s)}
                                 disabled={s > step}
                                 className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold transition-all ${s === step
-                                        ? 'bg-primary text-secondary-dark'
-                                        : s < step
-                                            ? 'bg-success text-white cursor-pointer'
-                                            : 'bg-secondary-light text-muted'
+                                    ? 'bg-primary text-secondary-dark'
+                                    : s < step
+                                        ? 'bg-success text-white cursor-pointer'
+                                        : 'bg-secondary-light text-muted'
                                     }`}
                             >
                                 {s < step ? <CheckCircle className="w-5 h-5" /> : s}

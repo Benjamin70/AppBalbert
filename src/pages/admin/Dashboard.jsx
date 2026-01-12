@@ -1,5 +1,5 @@
 import { useData } from '../../context/DataContext';
-import { useShop } from '../../context/ShopContext';
+import { useTenant } from '../../context/TenantContext';
 import {
     Calendar,
     Users,
@@ -13,7 +13,7 @@ import {
 
 export default function Dashboard() {
     const { barbers, appointments, getTodayAppointments } = useData();
-    const { formatPrice } = useShop();
+    const { formatPrice } = useTenant();
 
     const todayAppointments = getTodayAppointments();
 

@@ -37,10 +37,18 @@ import Reviews from './pages/admin/Reviews';
 import Loyalty from './pages/admin/Loyalty';
 import Gallery from './pages/admin/Gallery';
 import GiftCards from './pages/admin/GiftCards';
+import AdminSettings from './pages/admin/Settings';
 
-// Pages - SaaS (nuevas)
+// Pages - SaaS
 import LandingPage from './pages/saas/LandingPage';
 import RegisterBusiness from './pages/saas/RegisterBusiness';
+import Pricing from './pages/saas/Pricing';
+
+// Utils
+import { initializeDemoData } from './utils/demoData';
+
+// Initialize demo data on first load
+initializeDemoData();
 
 function App() {
   return (
@@ -77,6 +85,7 @@ function App() {
               {/* ============ SaaS Routes (sin shop) ============ */}
               <Route path="/" element={<LandingPage />} />
               <Route path="/registrar-negocio" element={<RegisterBusiness />} />
+              <Route path="/precios" element={<Pricing />} />
 
               {/* ============ Auth Routes ============ */}
               <Route
@@ -164,6 +173,8 @@ function App() {
                 <Route path="fidelidad" element={<Loyalty />} />
                 <Route path="galeria" element={<Gallery />} />
                 <Route path="gift-cards" element={<GiftCards />} />
+                {/* Phase 3 Routes */}
+                <Route path="configuracion" element={<AdminSettings />} />
               </Route>
 
               {/* 404 - Redirect to landing */}

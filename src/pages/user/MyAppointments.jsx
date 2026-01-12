@@ -1,7 +1,7 @@
 import { useAuth } from '../../context/AuthContext';
 import { useData } from '../../context/DataContext';
-import { useShop } from '../../context/ShopContext';
-import { Link } from 'react-router-dom';
+import { useTenant } from '../../context/TenantContext';
+import { Link, useLocation } from 'react-router-dom';
 import {
     Calendar,
     Clock,
@@ -16,7 +16,12 @@ import {
 export default function MyAppointments() {
     const { user } = useAuth();
     const { getAppointmentsByUser, barbers } = useData();
-    const { formatPrice } = useShop();
+    const { formatPrice } = useTenant();
+    const location = useLocation();
+
+    // Extraer basePath desde URL para mantener contexto del shop
+    const pathParts = location.pathname.split('/');
+    const basePath = pathParts[1] === 's' && pathParts[2] ? `/s/${pathParts[2]}` : '';
 
     const appointments = getAppointmentsByUser(user?.id);
 
@@ -49,7 +54,7 @@ export default function MyAppointments() {
                         <h1 className="text-2xl font-heading font-bold text-light">Mis Citas</h1>
                         <p className="text-muted">Historial y próximas citas</p>
                     </div>
-                    <Link to="/reservar" className="btn-primary">
+                    <Link to={`${basePath}/reservar`} className="btn-primary">
                         <Plus className="w-5 h-5 mr-2" />
                         Nueva Cita
                     </Link>
@@ -145,7 +150,7 @@ export default function MyAppointments() {
                         <p className="text-muted mb-6">
                             Reserva tu primera cita y disfruta de nuestros servicios
                         </p>
-                        <Link to="/reservar" className="btn-primary">
+                        <Link to={`${basePath}/reservar`} className="btn-primary">
                             <Plus className="w-5 h-5 mr-2" />
                             Reservar Ahora
                         </Link>
