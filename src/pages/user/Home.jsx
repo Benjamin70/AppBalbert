@@ -65,7 +65,7 @@ export default function Home() {
                         {/* CTA Buttons */}
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-slide-up" style={{ animationDelay: '0.2s' }}>
                             <Link
-                                to={isAuthenticated ? `${basePath}/reservar` : "/login"}
+                                to={`${basePath}/reservar`}
                                 className="btn-primary px-8 py-4 text-lg w-full sm:w-auto"
                             >
                                 <Calendar className="w-5 h-5 mr-2" />
@@ -234,11 +234,11 @@ export default function Home() {
                         Reserva tu cita ahora y experimenta el servicio de barbería que mereces
                     </p>
                     <Link
-                        to={isAuthenticated ? `${basePath}/reservar` : "/registro"}
+                        to={`${basePath}/reservar`}
                         className="inline-flex items-center gap-2 px-8 py-4 bg-secondary text-light font-semibold rounded-lg hover:bg-secondary-dark transition-all hover:shadow-xl"
                     >
                         <Calendar className="w-5 h-5" />
-                        {isAuthenticated ? 'Reservar Cita' : 'Crear Cuenta Gratis'}
+                        Reservar Ahora
                     </Link>
                 </div>
             </section>

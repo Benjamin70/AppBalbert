@@ -42,16 +42,10 @@ export default function AdminLayout() {
 
     const navItems = [
         { path: '/admin', icon: LayoutDashboard, label: 'Dashboard', exact: true },
-        { path: '/admin/barberos', icon: Users, label: employeeLabel },
         { path: '/admin/citas', icon: Calendar, label: 'Citas' },
         { path: '/admin/servicios', icon: Settings, label: 'Servicios' },
+        { path: '/admin/barberos', icon: Users, label: employeeLabel },
         { path: '/admin/clientes', icon: UsersRound, label: 'Clientes' },
-        { path: '/admin/inventario', icon: Package, label: 'Inventario' },
-        { path: '/admin/analytics', icon: BarChart3, label: 'Analytics' },
-        { path: '/admin/resenas', icon: Star, label: 'Reseñas' },
-        { path: '/admin/fidelidad', icon: Gift, label: 'Fidelidad' },
-        { path: '/admin/galeria', icon: Image, label: 'Galería' },
-        { path: '/admin/gift-cards', icon: Gift, label: 'Gift Cards' },
         { path: '/admin/configuracion', icon: Settings, label: 'Configuración' },
     ];
 

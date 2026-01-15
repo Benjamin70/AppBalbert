@@ -206,7 +206,7 @@
   }
 
   .label-text {
-    @apply block text-sm font-medium text-primary mb-2;
+    @apply block text-sm font-semibold text-light mb-2;
   }
 
   /* Menu Cart Pro Style */

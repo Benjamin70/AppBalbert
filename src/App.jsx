@@ -16,7 +16,6 @@ import { ProtectedRoute, PublicRoute } from './components/ProtectedRoute';
 
 // Pages - Auth
 import Login from './pages/Login';
-import Register from './pages/Register';
 
 // Pages - User
 import Home from './pages/user/Home';
@@ -31,12 +30,6 @@ import Barbers from './pages/admin/Barbers';
 import AdminAppointments from './pages/admin/Appointments';
 import AdminServices from './pages/admin/Services';
 import AdminClients from './pages/admin/Clients';
-import Inventory from './pages/admin/Inventory';
-import Analytics from './pages/admin/Analytics';
-import Reviews from './pages/admin/Reviews';
-import Loyalty from './pages/admin/Loyalty';
-import Gallery from './pages/admin/Gallery';
-import GiftCards from './pages/admin/GiftCards';
 import AdminSettings from './pages/admin/Settings';
 
 // Pages - SaaS
@@ -96,14 +89,7 @@ function App() {
                   </PublicRoute>
                 }
               />
-              <Route
-                path="/registro"
-                element={
-                  <PublicRoute>
-                    <Register />
-                  </PublicRoute>
-                }
-              />
+
 
               {/* ============ Shop Routes (con MainLayout) ============ */}
               {/* Ruta temporal para demo (sin slug) */}
@@ -111,14 +97,7 @@ function App() {
                 <Route path="/inicio" element={<Home />} />
                 <Route path="/servicios" element={<ServicesPage />} />
                 <Route path="/barberos" element={<BarbersPage />} />
-                <Route
-                  path="/reservar"
-                  element={
-                    <ProtectedRoute>
-                      <Booking />
-                    </ProtectedRoute>
-                  }
-                />
+                <Route path="/reservar" element={<Booking />} />
                 <Route
                   path="/mis-citas"
                   element={
@@ -134,14 +113,7 @@ function App() {
                 <Route index element={<Home />} />
                 <Route path="servicios" element={<ServicesPage />} />
                 <Route path="equipo" element={<BarbersPage />} />
-                <Route
-                  path="reservar"
-                  element={
-                    <ProtectedRoute>
-                      <Booking />
-                    </ProtectedRoute>
-                  }
-                />
+                <Route path="reservar" element={<Booking />} />
                 <Route
                   path="mis-citas"
                   element={
@@ -166,14 +138,7 @@ function App() {
                 <Route path="citas" element={<AdminAppointments />} />
                 <Route path="servicios" element={<AdminServices />} />
                 <Route path="clientes" element={<AdminClients />} />
-                {/* Phase 2 Routes */}
-                <Route path="inventario" element={<Inventory />} />
-                <Route path="analytics" element={<Analytics />} />
-                <Route path="resenas" element={<Reviews />} />
-                <Route path="fidelidad" element={<Loyalty />} />
-                <Route path="galeria" element={<Gallery />} />
-                <Route path="gift-cards" element={<GiftCards />} />
-                {/* Phase 3 Routes */}
+                {/* Settings */}
                 <Route path="configuracion" element={<AdminSettings />} />
               </Route>
 

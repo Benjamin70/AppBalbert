@@ -12,7 +12,8 @@ import {
     Instagram,
     Facebook,
     LayoutDashboard,
-    Sparkles
+    Sparkles,
+    ArrowLeft
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -100,6 +101,23 @@ export default function MainLayout() {
                 </div>
             )}
 
+            {/* Breadcrumb Navigation - Back to BeautyHub */}
+            {isInShopContext && !isDemo && (
+                <div className="bg-secondary-dark/50 border-b border-primary/10">
+                    <div className="section-container py-2">
+                        <Link
+                            to="/"
+                            className="inline-flex items-center gap-2 text-sm text-light/60 hover:text-primary transition-colors group"
+                        >
+                            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+                            <span>BeautyHub</span>
+                            <span className="text-light/40">|</span>
+                            <span className="text-light/80">Explorando: {shop.name}</span>
+                        </Link>
+                    </div>
+                </div>
+            )}
+
             {/* Header */}
             <header className="sticky top-0 z-50 bg-secondary/95 backdrop-blur-md border-b border-primary/20">
                 <div className="section-container">
@@ -144,7 +162,6 @@ export default function MainLayout() {
                             ) : (
                                 <div className="flex items-center gap-2">
                                     <Link to="/login" className="btn-ghost">Ingresar</Link>
-                                    <Link to="/registro" className="btn-primary">Registrarse</Link>
                                 </div>
                             )}
                         </nav>
@@ -204,9 +221,6 @@ export default function MainLayout() {
                                     <Link to="/login" className="btn-ghost justify-start" onClick={() => setMobileMenuOpen(false)}>
                                         Ingresar
                                     </Link>
-                                    <Link to="/registro" className="btn-primary justify-center" onClick={() => setMobileMenuOpen(false)}>
-                                        Registrarse
-                                    </Link>
                                 </>
                             )}
                         </nav>
@@ -217,11 +231,15 @@ export default function MainLayout() {
             {/* Status Bar */}
             <div className={`py-2 text-center text-sm ${isOpenNow() ? 'bg-success/20 text-success' : 'bg-error/20 text-error'}`}>
                 {isOpenNow() ? '🟢 Abierto ahora' : '🔴 Cerrado'}
-                <span className="ml-2 text-light/60">|</span>
-                <a href={`tel:${shop.phone}`} className="ml-2 hover:underline">
-                    <Phone className="w-3 h-3 inline mr-1" />
-                    {shop.phone}
-                </a>
+                {shop.contact?.phone && (
+                    <>
+                        <span className="ml-2 text-light/60">|</span>
+                        <a href={`tel:${shop.contact.phone}`} className="ml-2 hover:underline">
+                            <Phone className="w-3 h-3 inline mr-1" />
+                            {shop.contact.phone}
+                        </a>
+                    </>
+                )}
             </div>
 
             {/* Main Content */}

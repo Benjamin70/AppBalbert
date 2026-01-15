@@ -28,11 +28,13 @@ export default function Booking() {
     const navigate = useNavigate();
 
     // Estados del flujo de reserva
-    const [step, setStep] = useState(1); // 1: Barbero, 2: Servicios, 3: Fecha/Hora, 4: Confirmación
+    const [step, setStep] = useState(1); // 1: Barbero, 2: Servicios, 3: Fecha/Hora, 4: Cliente, 5: Confirmación
     const [selectedBarber, setSelectedBarber] = useState(null);
     const [cart, setCart] = useState([]);
     const [selectedDate, setSelectedDate] = useState('');
     const [selectedTime, setSelectedTime] = useState('');
+    const [clientName, setClientName] = useState('');
+    const [clientPhone, setClientPhone] = useState('');
     const [isCartOpen, setIsCartOpen] = useState(false);
 
     // Calcular total del carrito
@@ -132,9 +134,10 @@ export default function Booking() {
     // Confirmar reserva
     const handleConfirmBooking = () => {
         const appointment = {
-            userId: user.id,
-            clientName: user.name,
-            clientEmail: user.email,
+            userId: user?.id || null,
+            clientName: clientName,
+            clientPhone: clientPhone,
+            clientEmail: user?.email || '',
             barberId: selectedBarber.id,
             barberName: selectedBarber.name,
             services: cart.map(item => ({
@@ -151,15 +154,22 @@ export default function Booking() {
 
         addAppointment(appointment);
 
+        // Simular envío de SMS/WhatsApp
         toast.success(
             <div>
                 <p className="font-semibold">¡Cita reservada!</p>
-                <p className="text-sm">Recuerda llegar 5 minutos antes</p>
+                <p className="text-sm">📱 SMS enviado a {clientPhone}</p>
+                <p className="text-sm">💬 WhatsApp enviado</p>
             </div>,
             { duration: 5000 }
         );
 
-        navigate('/mis-citas');
+        // Si está logueado, ir a mis citas, sino a home
+        if (user) {
+            navigate('/mis-citas');
+        } else {
+            navigate('/');
+        }
     };
 
     // Renderizar paso actual
@@ -335,6 +345,43 @@ export default function Booking() {
                 return (
                     <div className="max-w-lg mx-auto space-y-6">
                         <div className="text-center mb-8">
+                            <h2 className="text-2xl font-heading font-bold text-light mb-2">
+                                Tus Datos
+                            </h2>
+                            <p className="text-muted">Ingresa tu información de contacto</p>
+                        </div>
+
+                        <div className="card p-6 space-y-4">
+                            <div>
+                                <label htmlFor="clientName" className="label-text">Nombre Completo</label>
+                                <input
+                                    type="text"
+                                    id="clientName"
+                                    className="input"
+                                    placeholder="Ej: Juan Pérez"
+                                    value={clientName}
+                                    onChange={(e) => setClientName(e.target.value)}
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="clientPhone" className="label-text">Número de Teléfono</label>
+                                <input
+                                    type="tel"
+                                    id="clientPhone"
+                                    className="input"
+                                    placeholder="Ej: 809-123-4567"
+                                    value={clientPhone}
+                                    onChange={(e) => setClientPhone(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                );
+
+            case 5:
+                return (
+                    <div className="max-w-lg mx-auto space-y-6">
+                        <div className="text-center mb-8">
                             <div className="w-16 h-16 bg-success/20 rounded-full flex items-center justify-center mx-auto mb-4">
                                 <CheckCircle className="w-8 h-8 text-success" />
                             </div>
@@ -428,7 +475,7 @@ export default function Booking() {
             <div className="section-container section-padding">
                 {/* Progress Steps */}
                 <div className="flex items-center justify-center gap-2 mb-12">
-                    {[1, 2, 3, 4].map((s) => (
+                    {[1, 2, 3, 4, 5].map((s) => (
                         <div key={s} className="flex items-center">
                             <button
                                 onClick={() => s < step && setStep(s)}
@@ -442,7 +489,7 @@ export default function Booking() {
                             >
                                 {s < step ? <CheckCircle className="w-5 h-5" /> : s}
                             </button>
-                            {s < 4 && (
+                            {s < 5 && (
                                 <div className={`w-8 md:w-16 h-1 mx-1 rounded ${s < step ? 'bg-success' : 'bg-secondary-light'}`} />
                             )}
                         </div>
@@ -453,7 +500,7 @@ export default function Booking() {
                 {renderStep()}
 
                 {/* Navigation Buttons */}
-                {step > 1 && step < 4 && (
+                {step > 1 && step < 5 && (
                     <div className="flex justify-between mt-8">
                         <button onClick={() => setStep(step - 1)} className="btn-outline">
                             <ChevronLeft className="w-5 h-5 mr-2" />
@@ -469,6 +516,13 @@ export default function Booking() {
 
                         {step === 3 && selectedDate && selectedTime && (
                             <button onClick={() => setStep(4)} className="btn-primary">
+                                Continuar
+                                <ChevronRight className="w-5 h-5 ml-2" />
+                            </button>
+                        )}
+
+                        {step === 4 && clientName && clientPhone && (
+                            <button onClick={() => setStep(5)} className="btn-primary">
                                 Continuar
                                 <ChevronRight className="w-5 h-5 ml-2" />
                             </button>

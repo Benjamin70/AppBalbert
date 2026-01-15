@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
     Sparkles,
@@ -10,10 +11,19 @@ import {
     CheckCircle2,
     Scissors,
     Heart,
-    Gem
+    Gem,
+    ArrowRight
 } from 'lucide-react';
 
 export default function LandingPage() {
+    const [shops, setShops] = useState([]);
+
+    useEffect(() => {
+        const shopsData = JSON.parse(localStorage.getItem('beautyhub_shops') || '[]');
+        // Filtrar el shop demo del directorio
+        const realShops = shopsData.filter(shop => shop.id !== 'shop_demo' && shop.slug !== 'demo-barberia');
+        setShops(realShops);
+    }, []);
     const features = [
         {
             icon: <Palette className="w-8 h-8" />,
@@ -176,6 +186,95 @@ export default function LandingPage() {
                     </div>
                 </div>
             </section>
+
+            {/* Business Directory Section */}
+            {shops.length > 0 && (
+                <section className="py-20 px-4">
+                    <div className="max-w-7xl mx-auto">
+                        <div className="text-center mb-12">
+                            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+                                Descubre negocios cerca de ti
+                            </h2>
+                            <p className="text-white/60 text-lg max-w-2xl mx-auto">
+                                Explora nuestros negocios registrados y agenda tu próxima cita
+                            </p>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {shops.map((shop) => {
+                                const getBusinessIcon = (type) => {
+                                    switch (type) {
+                                        case 'barberia': return <Scissors className="w-6 h-6" />;
+                                        case 'salon': return <Sparkles className="w-6 h-6" />;
+                                        case 'nails': return <Gem className="w-6 h-6" />;
+                                        case 'spa': return <Heart className="w-6 h-6" />;
+                                        default: return <Scissors className="w-6 h-6" />;
+                                    }
+                                };
+
+                                const getBusinessLabel = (type) => {
+                                    switch (type) {
+                                        case 'barberia': return 'Barbería';
+                                        case 'salon': return 'Salón de Belleza';
+                                        case 'nails': return 'Estudio de Uñas';
+                                        case 'spa': return 'Spa & Wellness';
+                                        default: return 'Negocio';
+                                    }
+                                };
+
+                                return (
+                                    <div
+                                        key={shop.id}
+                                        className="bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-white/10 hover:border-amber-500/50 transition-all hover:shadow-xl hover:shadow-amber-500/10 group"
+                                    >
+                                        <div className="flex items-center gap-4 mb-4">
+                                            {shop.logo ? (
+                                                <img
+                                                    src={shop.logo}
+                                                    alt={shop.name}
+                                                    className="w-16 h-16 rounded-xl object-cover"
+                                                />
+                                            ) : (
+                                                <div
+                                                    className="w-16 h-16 rounded-xl flex items-center justify-center font-bold text-2xl text-white"
+                                                    style={{
+                                                        background: `linear-gradient(135deg, ${shop.theme?.primary || '#D4A574'}, ${shop.theme?.accent || '#E8C99B'})`
+                                                    }}
+                                                >
+                                                    {shop.name.charAt(0).toUpperCase()}
+                                                </div>
+                                            )}
+                                            <div className="flex-1">
+                                                <h3 className="text-xl font-bold text-white group-hover:text-amber-400 transition-colors">
+                                                    {shop.name}
+                                                </h3>
+                                                <div className="flex items-center gap-1 text-amber-400 text-sm">
+                                                    {getBusinessIcon(shop.businessType)}
+                                                    <span>{getBusinessLabel(shop.businessType)}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {shop.description && (
+                                            <p className="text-white/60 text-sm mb-4 line-clamp-2">
+                                                {shop.description}
+                                            </p>
+                                        )}
+
+                                        <Link
+                                            to={`/s/${shop.slug}`}
+                                            className="flex items-center justify-center gap-2 w-full bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-500/30 text-amber-400 px-4 py-3 rounded-xl font-semibold hover:from-amber-500 hover:to-orange-500 hover:text-white transition-all group-hover:shadow-lg"
+                                        >
+                                            Visitar negocio
+                                            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                        </Link>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                </section>
+            )}
 
             {/* CTA Section */}
             <section className="py-20 px-4">
