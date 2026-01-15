@@ -107,39 +107,39 @@ export default function Pricing() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-[#0f0f1a] via-[#1a1a2e] to-[#16213e] py-12 px-4">
+        <div className="min-h-screen bg-gradient-to-br from-[#0f0f1a] via-[#1a1a2e] to-[#16213e] py-8 md:py-12 px-3 md:px-4">
             <div className="max-w-6xl mx-auto">
                 {/* Back Link */}
                 <Link
                     to="/"
-                    className="inline-flex items-center gap-2 text-white/60 hover:text-white mb-8 transition-colors"
+                    className="inline-flex items-center gap-2 text-sm md:text-base text-white/60 hover:text-white mb-6 md:mb-8 transition-colors"
                 >
-                    <ArrowLeft className="w-4 h-4" />
+                    <ArrowLeft className="w-3 h-3 md:w-4 md:h-4" />
                     Volver al inicio
                 </Link>
 
                 {/* Header */}
-                <div className="text-center mb-12">
-                    <div className="flex items-center justify-center gap-2 mb-4">
-                        <Sparkles className="w-8 h-8 text-amber-400" />
-                        <span className="text-2xl font-bold text-white">BeautyHub</span>
+                <div className="text-center mb-8 md:mb-12">
+                    <div className="flex items-center justify-center gap-2 mb-3 md:mb-4">
+                        <Sparkles className="w-6 h-6 md:w-8 md:h-8 text-amber-400" />
+                        <span className="text-xl md:text-2xl font-bold text-white">BeautyHub</span>
                     </div>
-                    <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+                    <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 md:mb-4 px-4">
                         Planes y Precios
                     </h1>
-                    <p className="text-white/60 text-lg max-w-2xl mx-auto">
+                    <p className="text-sm md:text-base lg:text-lg text-white/60 max-w-2xl mx-auto px-4">
                         Elige el plan perfecto para tu negocio. Todos incluyen 14 días de prueba gratis.
                     </p>
                 </div>
 
                 {/* Plans Grid */}
-                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                     {plans.map((plan) => (
                         <div
                             key={plan.id}
                             className={`relative bg-white/5 backdrop-blur-sm rounded-2xl border p-6 flex flex-col ${plan.popular
-                                    ? 'border-amber-500 shadow-lg shadow-amber-500/20'
-                                    : 'border-white/10'
+                                ? 'border-amber-500 shadow-lg shadow-amber-500/20'
+                                : 'border-white/10'
                                 }`}
                         >
                             {plan.popular && (
@@ -190,10 +190,10 @@ export default function Pricing() {
                             <button
                                 onClick={() => handleSelectPlan(plan.id)}
                                 className={`w-full py-3 rounded-xl font-semibold transition-all ${plan.popular
-                                        ? 'bg-amber-500 text-white hover:bg-amber-600'
-                                        : plan.id === 'free'
-                                            ? 'bg-white/10 text-white/60 cursor-default'
-                                            : 'bg-white/10 text-white hover:bg-white/20'
+                                    ? 'bg-amber-500 text-white hover:bg-amber-600'
+                                    : plan.id === 'free'
+                                        ? 'bg-white/10 text-white/60 cursor-default'
+                                        : 'bg-white/10 text-white hover:bg-white/20'
                                     }`}
                                 disabled={plan.id === 'free'}
                             >

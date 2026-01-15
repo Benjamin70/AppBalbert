@@ -47,22 +47,22 @@ export default function Login() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-[#0f0f1a] via-[#1a1a2e] to-[#16213e] flex items-center justify-center p-4">
+        <div className="min-h-screen bg-gradient-to-br from-[#0f0f1a] via-[#1a1a2e] to-[#16213e] flex items-center justify-center p-3 md:p-4">
             <div className="w-full max-w-md">
                 {/* Logo - Always BeautyHub */}
-                <div className="text-center mb-8 animate-fade-in">
-                    <Link to="/" className="inline-flex items-center gap-3 mb-4 justify-center">
-                        <div className="p-3 bg-amber-500 rounded-xl">
-                            <Sparkles className="w-8 h-8 text-white" />
+                <div className="text-center mb-6 md:mb-8 animate-fade-in">
+                    <Link to="/" className="inline-flex items-center gap-2 md:gap-3 mb-3 md:mb-4 justify-center">
+                        <div className="p-2 md:p-3 bg-amber-500 rounded-xl">
+                            <Sparkles className="w-6 h-6 md:w-8 md:h-8 text-white" />
                         </div>
-                        <span className="text-2xl font-bold text-white">BeautyHub</span>
+                        <span className="text-xl md:text-2xl font-bold text-white">BeautyHub</span>
                     </Link>
-                    <h2 className="text-xl font-semibold text-white mt-4">Iniciar Sesión</h2>
-                    <p className="text-white/60 mt-1">Accede a tu panel de administración</p>
+                    <h2 className="text-lg md:text-xl font-semibold text-white mt-3 md:mt-4">Iniciar Sesión</h2>
+                    <p className="text-sm md:text-base text-white/60 mt-1">Accede a tu panel de administración</p>
                 </div>
 
                 {/* Form Card */}
-                <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8">
+                <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 md:p-8">
                     <form onSubmit={handleSubmit} className="space-y-6">
                         {/* Email */}
                         <div>
